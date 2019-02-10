@@ -2,16 +2,13 @@ package ru.findplace.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
-import ru.findplace.demo.entity.CompanyLists;
-import ru.findplace.demo.entity.ContactList;
-import ru.findplace.demo.entity.Owner;
+import org.springframework.web.bind.annotation.*;
+import ru.findplace.demo.entity.companylist.CompaniesBookLists;
+import ru.findplace.demo.entity.companylist.Member;
+import ru.findplace.demo.entity.companylist.MembersBookList;
+import ru.findplace.demo.entity.companylist.MembersList;
+import ru.findplace.demo.entity.owner.Owner;
 import ru.findplace.demo.service.MailSender;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -31,17 +28,43 @@ public class HomeController {
      * @return - Owner class
      */
     @GetMapping(value = "/owner")
-    public Mono<Owner> getOwnerParams() {
-        return mailSender.getOwner(apiKey);
+    public Owner getOwnerParams() {
+        return mailSender.getOwner(apiKey).getBody();
     }
 
     /**
      * Возвращает список контактов email компаний, подробнее https://us20.admin.mailchimp.com/lists/
      */
     @GetMapping(value = "/lists")
-    public Mono<CompanyLists> getLists() {
-        Mono<CompanyLists> companyLists = mailSender.getCompanyLists(apiKey);
-        return companyLists;
+    public CompaniesBookLists getLists() {
+        return mailSender.getCompanyLists(apiKey).getBody();
+    }
+
+    /**
+     * Создает список контактов email компаний, подробнее https://us20.admin.mailchimp.com/lists/
+     */
+    @PostMapping(value = "/lists")
+    public MembersBookList addList(@RequestBody MembersBookList membersBookList) {
+        return mailSender.addCompanyList(apiKey, membersBookList).getBody();
+    }
+
+    /**
+     * Возвращает контакты по имени списка
+     * @param name - имя списка
+     * @return - список контактов
+     */
+    @GetMapping(value = "/members")
+    public MembersList getMembersList(@RequestParam String name) {
+        return mailSender.getMemberListByListName(name, apiKey).getBody();
+    }
+
+    /**
+     * Добавляет контакты по имени списка
+     * @param name - имя списка
+     */
+    @PostMapping(value = "/members")
+    public Member addMember(@RequestParam String name, @RequestBody Member member) {
+        return mailSender.addMemberByListName(name, member, apiKey).getBody();
     }
 
 }
