@@ -1,7 +1,8 @@
 package ru.findplace.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import ru.findplace.demo.entity.companylist.CompaniesBookLists;
 import ru.findplace.demo.entity.companylist.MembersBookList;
@@ -10,10 +11,12 @@ import ru.findplace.demo.service.MailSender;
 @RestController
 @RequestMapping(value = "/api")
 public class CompanyListController {
+
     private final MailSender mailSender;
+    Logger LOG = LoggerFactory.getLogger(CompanyListController.class);
 
     @Autowired
-    public CompanyListController(MailSender mailSender, Environment env) {
+    public CompanyListController(MailSender mailSender) {
         this.mailSender = mailSender;
     }
 
@@ -22,7 +25,12 @@ public class CompanyListController {
      */
     @GetMapping(value = "/lists")
     public CompaniesBookLists getLists() {
-        return mailSender.getCompanyLists().getBody();
+        LOG.info("Get CompaniesBookLists request");
+        CompaniesBookLists bookLists = mailSender.getCompanyLists().getBody();
+        if (bookLists != null) {
+            LOG.info("Get CompaniesBookLists response: " + bookLists.toString());
+        }
+        return bookLists;
     }
 
     /**
@@ -30,6 +38,11 @@ public class CompanyListController {
      */
     @PostMapping(value = "/lists")
     public MembersBookList addList(@RequestBody MembersBookList membersBookList) {
-        return mailSender.addCompanyList(membersBookList).getBody();
+        LOG.info("Get MembersBookList request");
+        MembersBookList bookList = mailSender.addCompanyList(membersBookList).getBody();
+        if (bookList != null) {
+            LOG.info("Get MembersBookList response: " +bookList.toString());
+        }
+        return bookList;
     }
 }

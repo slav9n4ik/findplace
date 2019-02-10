@@ -1,7 +1,8 @@
 package ru.findplace.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import ru.findplace.demo.service.MailSender;
 public class HomeController {
 
     private final MailSender mailSender;
+    Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
     public HomeController(MailSender mailSender) {
@@ -25,7 +27,12 @@ public class HomeController {
      */
     @GetMapping(value = "/owner")
     public Owner getOwnerParams() {
-        return mailSender.getOwner().getBody();
+        LOG.info("Get owner params request");
+        Owner owner = mailSender.getOwner().getBody();
+        if (owner != null) {
+            LOG.info("Owner response: " + owner.toString());
+        }
+        return owner;
     }
 }
 

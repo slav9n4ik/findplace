@@ -1,7 +1,8 @@
 package ru.findplace.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import ru.findplace.demo.entity.companylist.Member;
 import ru.findplace.demo.entity.companylist.MembersList;
@@ -12,6 +13,7 @@ import ru.findplace.demo.service.MailSender;
 public class MemberController {
 
     private final MailSender mailSender;
+    Logger LOG = LoggerFactory.getLogger(MemberController.class);
 
     @Autowired
     public MemberController(MailSender mailSender) {
@@ -25,7 +27,12 @@ public class MemberController {
      */
     @GetMapping(value = "/members")
     public MembersList getMembersList(@RequestParam String name) {
-        return mailSender.getMemberListByListName(name).getBody();
+        LOG.info("Get MembersList request");
+        MembersList membersList = mailSender.getMemberListByListName(name).getBody();
+        if (membersList != null) {
+            LOG.info("Get MembersList response: " + membersList.toString());
+        }
+        return membersList;
     }
 
     /**
@@ -34,6 +41,11 @@ public class MemberController {
      */
     @PostMapping(value = "/members")
     public Member addMember(@RequestParam String name, @RequestBody Member member) {
-        return mailSender.addMemberByListName(name, member).getBody();
+        LOG.info("Add Member request");
+        Member responseMember = mailSender.addMemberByListName(name, member).getBody();
+        if (responseMember != null) {
+            LOG.info("Add Member response: " + responseMember.toString());
+        }
+        return responseMember;
     }
 }
