@@ -1,7 +1,6 @@
-package ru.findplace.demo.entity.companylist;
+package ru.findplace.demo.entity.campaign;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -9,41 +8,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "lists",
-        "total_items"
+        "enabled"
 })
-@ToString
-public class CompaniesBookLists {
+public class DeliveryStatus {
 
-    @JsonProperty("lists")
-    private List<MembersBookList> lists = null;
-    @JsonProperty("total_items")
-    private Integer totalItems;
+    @JsonProperty("enabled")
+    private Boolean enabled;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("lists")
-    public List<MembersBookList>  getLists() {
-        return lists;
+    @JsonProperty("enabled")
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    @JsonProperty("lists")
-    public void setLists(List<MembersBookList>  lists) {
-        this.lists = lists;
-    }
-
-    @JsonProperty("total_items")
-    public Integer getTotalItems() {
-        return totalItems;
-    }
-
-    @JsonProperty("total_items")
-    public void setTotalItems(Integer totalItems) {
-        this.totalItems = totalItems;
+    @JsonProperty("enabled")
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @JsonAnyGetter

@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.findplace.demo.entity.companylist.Member;
-import ru.findplace.demo.entity.companylist.MembersList;
+import ru.findplace.demo.entity.campaignbooklist.Member;
+import ru.findplace.demo.entity.campaignbooklist.MembersList;
 import ru.findplace.demo.service.MailSender;
 
 @RestController

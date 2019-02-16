@@ -1,4 +1,4 @@
-package ru.findplace.demo.entity.companylist;
+package ru.findplace.demo.entity.template;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,41 +9,39 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "members",
-        "list_id"
+        "templates",
+        "total_items"
 })
-@ToString
-public class MembersList {
+public class TemplateList {
 
-    @JsonProperty("members")
-    private List<Member> members = null;
-    @JsonProperty("list_id")
-    private String listId;
+    @JsonProperty("templates")
+    private List<Template> templates = null;
+    @JsonProperty("total_items")
+    private Integer totalItems;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("members")
-    public List<Member> getMembers() {
-        return members;
+    @JsonProperty("templates")
+    public List<Template> getTemplates() {
+        return templates;
     }
 
-    @JsonProperty("members")
-    public void setMembers(List<Member> members) {
-        this.members = members;
+    @JsonProperty("templates")
+    public void setTemplates(List<Template> templates) {
+        this.templates = templates;
     }
 
-    @JsonProperty("list_id")
-    public String getListId() {
-        return listId;
+    @JsonProperty("total_items")
+    public Integer getTotalItems() {
+        return totalItems;
     }
 
-    @JsonProperty("list_id")
-    public void setListId(String listId) {
-        this.listId = listId;
+    @JsonProperty("total_items")
+    public void setTotalItems(Integer totalItems) {
+        this.totalItems = totalItems;
     }
 
     @JsonAnyGetter

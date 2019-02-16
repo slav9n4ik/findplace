@@ -1,4 +1,4 @@
-package ru.findplace.demo.entity.companylist;
+package ru.findplace.demo.entity.campaignbooklist;
 
 import java.util.HashMap;
 import java.util.List;
