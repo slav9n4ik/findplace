@@ -20,19 +20,19 @@ import lombok.ToString;
 public class CampaignsBookLists {
 
     @JsonProperty("lists")
-    private List<MembersBookList> lists = null;
+    private List<CampaignsBookItem> lists = null;
     @JsonProperty("total_items")
     private Integer totalItems;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("lists")
-    public List<MembersBookList>  getLists() {
+    public List<CampaignsBookItem>  getLists() {
         return lists;
     }
 
     @JsonProperty("lists")
-    public void setLists(List<MembersBookList>  lists) {
+    public void setLists(List<CampaignsBookItem>  lists) {
         this.lists = lists;
     }
 

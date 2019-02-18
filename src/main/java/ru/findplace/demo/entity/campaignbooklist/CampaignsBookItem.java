@@ -36,7 +36,7 @@ import ru.findplace.demo.entity.owner.Contact;
         "stats"
 })
 @ToString
-public class MembersBookList {
+public class CampaignsBookItem {
 
     @JsonProperty("id")
     private String id;

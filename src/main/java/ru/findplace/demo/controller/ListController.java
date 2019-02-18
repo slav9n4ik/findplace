@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.findplace.demo.entity.campaignbooklist.CampaignsBookItem;
 import ru.findplace.demo.entity.campaignbooklist.CampaignsBookLists;
-import ru.findplace.demo.entity.campaignbooklist.MembersBookList;
 import ru.findplace.demo.service.MailSender;
 
 @RestController
@@ -37,11 +37,11 @@ public class ListController {
      * Создает список контактов email компаний, подробнее https://us20.admin.mailchimp.com/lists/
      */
     @PostMapping(value = "/lists")
-    public MembersBookList addList(@RequestBody MembersBookList membersBookList) {
-        LOG.info("Add MembersBookList request");
-        MembersBookList bookList = mailSender.addCompanyList(membersBookList).getBody();
+    public CampaignsBookItem addList(@RequestBody CampaignsBookItem campaignsBookItem) {
+        LOG.info("Add CampaignsBookItem request");
+        CampaignsBookItem bookList = mailSender.addCompanyList(campaignsBookItem).getBody();
         if (bookList != null) {
-            LOG.info("Add MembersBookList response: " +bookList.toString());
+            LOG.info("Add CampaignsBookItem response: " +bookList.toString());
         }
         return bookList;
     }
