@@ -4,14 +4,16 @@ import ru.findplace.demo.response.base.Response;
 
 import java.io.Serializable;
 
-public enum OwnerResponse implements Response, Serializable {
-    OWNER_READ_SUCCESS(100, "Данные админа получены"),
-    OWNER_READ_CONFLICT(101, "Данные админа неполучены");
+public enum TemplateResponse implements Response, Serializable {
+    READ_TEMPLATES_SUCCESS(100, "Список шаблонов получен"),
+    READ_TEMPLATES_CONFLICT(101, "Список шаблонов неполучен корректно"),
+    READ_TEMPLATE_SUCCESS(102, "Шаблон получен по имени"),
+    READ_TEMPLATE_CONFLICT(103, "Шаблон не получен по имени");
 
     private int code;
     private String reasonPhrase;
 
-    OwnerResponse(int code, String reasonPhrase) {
+    TemplateResponse(int code, String reasonPhrase) {
         this.code = code;
         this.reasonPhrase = reasonPhrase;
     }
@@ -19,10 +21,6 @@ public enum OwnerResponse implements Response, Serializable {
     @Override
     public int getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     @Override

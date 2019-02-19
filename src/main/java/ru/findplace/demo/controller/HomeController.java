@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.findplace.demo.entity.owner.Owner;
 import ru.findplace.demo.response.OwnerResponse;
-import ru.findplace.demo.response.Response;
-import ru.findplace.demo.response.ResponseBuilder;
-import ru.findplace.demo.response.ResponseWrapper;
+import ru.findplace.demo.response.base.Response;
+import ru.findplace.demo.response.base.ResponseBuilder;
+import ru.findplace.demo.response.base.ResponseWrapper;
 import ru.findplace.demo.service.MailSender;
 
 @RestController
@@ -43,6 +43,7 @@ public class HomeController extends ResponseBuilder {
         } catch (Exception e) {
             owner = new Owner();
             response = OwnerResponse.OWNER_READ_CONFLICT;
+            LOG.error("Owner response conflict: ",e);
         }
         return render(owner, response, HttpStatus.OK);
     }

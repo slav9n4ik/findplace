@@ -1,4 +1,4 @@
-package ru.findplace.demo.response;
+package ru.findplace.demo.response.base;
 
 public interface Response {
     int getCode();

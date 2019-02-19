@@ -1,4 +1,4 @@
-package ru.findplace.demo.response;
+package ru.findplace.demo.response.base;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ public class ResponseWrapper {
     private Object data;
     private String date;
 
-    public ResponseWrapper(Response response, Object date) {
+    public ResponseWrapper(Response response, Object data) {
         this.code = response.getCode();
         this.phraseText = response.getReasonPhrase();
         this.data = data;
