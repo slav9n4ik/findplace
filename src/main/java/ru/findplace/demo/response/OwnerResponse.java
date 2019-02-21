@@ -6,7 +6,9 @@ import java.io.Serializable;
 
 public enum OwnerResponse implements Response, Serializable {
     OWNER_READ_SUCCESS(100, "Данные админа получены"),
-    OWNER_READ_CONFLICT(101, "Данные админа неполучены");
+    OWNER_READ_CONFLICT(101, "Данные админа неполучены"),
+    PING_READ_SUCCESS(102, "Данные пинга получены"),
+    PING_READ_CONFLICT(104, "Данные пинга неполучены");
 
     private int code;
     private String reasonPhrase;

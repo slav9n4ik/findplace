@@ -12,18 +12,18 @@ import ru.findplace.demo.response.MemberResponse;
 import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
-import ru.findplace.demo.service.MailSender;
+import ru.findplace.demo.service.member.MemberService;
 
 @RestController
 @RequestMapping(value = "/api")
 public class MemberController extends ResponseBuilder {
 
-    private final MailSender mailSender;
+    private final MemberService memberService;
     Logger LOG = LoggerFactory.getLogger(MemberController.class);
 
     @Autowired
-    public MemberController(MailSender mailSender) {
-        this.mailSender = mailSender;
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     /**
@@ -37,7 +37,7 @@ public class MemberController extends ResponseBuilder {
         Response response;
         MembersList membersList;
         try {
-            membersList = mailSender.getMemberListByListName(name).getBody();
+            membersList = memberService.getMemberListByListName(name);
             response = MemberResponse.MEMBER_READ_SUCCESS;
             LOG.info("Get MembersList response: " + membersList.toString());
         }catch (Exception e) {
@@ -58,7 +58,7 @@ public class MemberController extends ResponseBuilder {
         Member responseMember;
         Response response;
         try {
-            responseMember = mailSender.addMemberByListName(name, member).getBody();
+            responseMember = memberService.addMemberByListName(name, member);
             response = MemberResponse.MEMBER_ADD_SUCCESS;
             LOG.info("Add Member response: " + responseMember.toString());
         } catch (Exception e) {

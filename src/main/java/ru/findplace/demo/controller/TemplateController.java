@@ -16,6 +16,7 @@ import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
 import ru.findplace.demo.service.MailSender;
+import ru.findplace.demo.service.template.TemplateService;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,12 +24,12 @@ import javax.validation.constraints.NotNull;
 @RequestMapping(value = "/api")
 public class TemplateController extends ResponseBuilder {
 
-    private final MailSender mailSender;
+    private final TemplateService templateService;
     Logger LOG = LoggerFactory.getLogger(TemplateController.class);
 
     @Autowired
-    public TemplateController(MailSender mailSender) {
-        this.mailSender = mailSender;
+    public TemplateController(TemplateService templateService) {
+        this.templateService = templateService;
     }
 
     @GetMapping(value = "/templates")
@@ -37,7 +38,7 @@ public class TemplateController extends ResponseBuilder {
         TemplateList templateList;
         Response response;
         try {
-            templateList = mailSender.getTemplateList().getBody();
+            templateList = templateService.getTemplateList();
             response = TemplateResponse.READ_TEMPLATES_SUCCESS;
             LOG.info("Get TemplateList response: " + templateList);
         } catch (Exception e) {
@@ -53,7 +54,7 @@ public class TemplateController extends ResponseBuilder {
         Template template;
         Response response;
         try {
-            template = mailSender.getTemplateByName(name);
+            template = templateService.getTemplateByName(name);
             response = TemplateResponse.READ_TEMPLATE_SUCCESS;
             LOG.info("Get TemplateId by name response: " + template);
         } catch (Exception e) {

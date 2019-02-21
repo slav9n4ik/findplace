@@ -1,33 +1,28 @@
-package ru.findplace.demo.entity.campaign;
+package ru.findplace.demo.entity.owner;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "enabled"
-})
-public class DeliveryStatus {
+import java.util.HashMap;
+import java.util.Map;
 
-    @JsonProperty("enabled")
-    private Boolean enabled;
+public class Ping {
+
+    @JsonProperty("health_status")
+    private String healthStatus;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("enabled")
-    public Boolean getEnabled() {
-        return enabled;
+    @JsonProperty("health_status")
+    public String getHealthStatus() {
+        return healthStatus;
     }
 
-    @JsonProperty("enabled")
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    @JsonProperty("health_status")
+    public void setHealthStatus(String healthStatus) {
+        this.healthStatus = healthStatus;
     }
 
     @JsonAnyGetter

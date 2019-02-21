@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "FNAME",
         "LNAME",
-        "ADDRESS",
         "PHONE",
         "BIRTHDAY"
 })
@@ -23,8 +22,6 @@ public class MergeFields {
     private String fNAME;
     @JsonProperty("LNAME")
     private String lNAME;
-    @JsonProperty("ADDRESS")
-    private Address address;
     @JsonProperty("PHONE")
     private String pHONE;
     @JsonProperty("BIRTHDAY")
@@ -50,16 +47,6 @@ public class MergeFields {
     @JsonProperty("LNAME")
     public void setLNAME(String lNAME) {
         this.lNAME = lNAME;
-    }
-
-    @JsonProperty("ADDRESS")
-    public Address getAddress() {
-        return address;
-    }
-
-    @JsonProperty("ADDRESS")
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     @JsonProperty("PHONE")

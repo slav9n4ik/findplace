@@ -9,22 +9,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.findplace.demo.entity.owner.Owner;
+import ru.findplace.demo.entity.owner.Ping;
 import ru.findplace.demo.response.OwnerResponse;
 import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
-import ru.findplace.demo.service.MailSender;
+import ru.findplace.demo.service.owner.OwnerService;
 
 @RestController
 @RequestMapping(value = "/api")
-public class HomeController extends ResponseBuilder {
+public class OwnerController extends ResponseBuilder {
 
-    private final MailSender mailSender;
-    Logger LOG = LoggerFactory.getLogger(HomeController.class);
+    private final OwnerService ownerService;
+    Logger LOG = LoggerFactory.getLogger(OwnerController.class);
 
     @Autowired
-    public HomeController(MailSender mailSender) {
-        this.mailSender = mailSender;
+    public OwnerController(OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 
     /**
@@ -37,7 +38,7 @@ public class HomeController extends ResponseBuilder {
         Response response;
         Owner owner;
         try {
-            owner = mailSender.getOwner().getBody();
+            owner = ownerService.getOwner();
             response = OwnerResponse.OWNER_READ_SUCCESS;
             LOG.info("Owner response: " + owner.toString());
         } catch (Exception e) {
@@ -46,6 +47,27 @@ public class HomeController extends ResponseBuilder {
             LOG.error("Owner response conflict: ",e);
         }
         return render(owner, response, HttpStatus.OK);
+    }
+
+    /**
+     * Пинг
+     * @return - Ping class
+     */
+    @GetMapping(value = "/ping")
+    public ResponseEntity<ResponseWrapper> getPing() {
+        LOG.info("Get ping params request");
+        Response response;
+        Ping ping;
+        try {
+            ping = ownerService.getPing();
+            response = OwnerResponse.PING_READ_SUCCESS;
+            LOG.info("Ping response: " + ping.toString());
+        } catch (Exception e) {
+            ping = null;
+            response = OwnerResponse.PING_READ_CONFLICT;
+            LOG.error("Ping response conflict: ",e);
+        }
+        return render(ping, response, HttpStatus.OK);
     }
 }
 

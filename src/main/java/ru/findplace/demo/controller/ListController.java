@@ -12,18 +12,18 @@ import ru.findplace.demo.response.ListResponse;
 import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
-import ru.findplace.demo.service.MailSender;
+import ru.findplace.demo.service.list.ListService;
 
 @RestController
 @RequestMapping(value = "/api")
 public class ListController extends ResponseBuilder {
 
-    private final MailSender mailSender;
+    private final ListService listService;
     Logger LOG = LoggerFactory.getLogger(ListController.class);
 
     @Autowired
-    public ListController(MailSender mailSender) {
-        this.mailSender = mailSender;
+    public ListController(ListService listService) {
+        this.listService = listService;
     }
 
     /**
@@ -35,7 +35,7 @@ public class ListController extends ResponseBuilder {
         CampaignsBookLists bookLists;
         ListResponse response;
         try {
-            bookLists = mailSender.getCompanyLists().getBody();
+            bookLists = listService.getCompanyLists();
             response = ListResponse.LIST_READ_SUCCESS;
             LOG.info("Get CampaignsBookLists response: " + bookLists.toString());
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class ListController extends ResponseBuilder {
 
         LOG.info("Add CampaignsBookItem request");
         try {
-            bookList = mailSender.addCompanyList(campaignsBookItem).getBody();
+            bookList = listService.addCompanyList(campaignsBookItem);
             response = ListResponse.LIST_ADD_SUCCESS;
             LOG.info("Add CampaignsBookItem response: " +bookList.toString());
         } catch (Exception e) {

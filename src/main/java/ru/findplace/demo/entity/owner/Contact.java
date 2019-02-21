@@ -12,22 +12,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "company",
-        "address1",
-        "address2",
+        "addr1",
+        "addr2",
         "city",
         "state",
         "zip",
-        "country",
-        "phone"
+        "country"
 })
 public class Contact {
 
     @JsonProperty("company")
     private String company;
-    @JsonProperty("address1")
-    private String address1;
-    @JsonProperty("address2")
-    private String address2;
+    @JsonProperty("addr1")
+    private String addr1;
+    @JsonProperty("addr2")
+    private String addr2;
     @JsonProperty("city")
     private String city;
     @JsonProperty("state")
@@ -36,8 +35,6 @@ public class Contact {
     private String zip;
     @JsonProperty("country")
     private String country;
-    @JsonProperty("phone")
-    private String phone;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -51,24 +48,24 @@ public class Contact {
         this.company = company;
     }
 
-    @JsonProperty("address1")
-    public String getAddress1() {
-        return address1;
+    @JsonProperty("addr1")
+    public String getAddr1() {
+        return addr1;
     }
 
-    @JsonProperty("address1")
-    public void setAddress1(String address1) {
-        this.address1 = address1;
+    @JsonProperty("addr1")
+    public void setAddr1(String addr1) {
+        this.addr1 = addr1;
     }
 
-    @JsonProperty("address2")
-    public String getAddress2() {
-        return address2;
+    @JsonProperty("addr2")
+    public String getAddr2() {
+        return addr2;
     }
 
-    @JsonProperty("address2")
-    public void setAddress2(String address2) {
-        this.address2 = address2;
+    @JsonProperty("addr2")
+    public void setAddr2(String addr2) {
+        this.addr2 = addr2;
     }
 
     @JsonProperty("city")
@@ -109,16 +106,6 @@ public class Contact {
     @JsonProperty("country")
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    @JsonProperty("phone")
-    public String getPhone() {
-        return phone;
-    }
-
-    @JsonProperty("phone")
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     @JsonAnyGetter

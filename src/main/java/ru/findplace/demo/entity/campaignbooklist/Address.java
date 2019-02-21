@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
         "zip",
         "country"
 })
-@NoArgsConstructor
+
 public class Address {
 
     @JsonProperty("addr1")

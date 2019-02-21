@@ -33,7 +33,7 @@ public class CampaignController extends ResponseBuilder {
         Response response;
         CampaignsList campaignsList;
         try {
-            campaignsList = mailSender.getCampaignList().getBody();
+            campaignsList = null;//mailSender.getCampaignList().getBody();
             response = CampaignResponse.READ_CAMPAIGNS_SUCCESS;
             LOG.info("Get CampaignsList response: " + campaignsList);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class CampaignController extends ResponseBuilder {
         Response response;
 
         try {
-            campaign = mailSender.getCampaignByName(name);
+            campaign = null;//mailSender.getCampaignByName(name);
             response = CampaignResponse.READ_CAMPAIGN_SUCCESS;
             LOG.info("Get Campaign response: " + campaign);
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class CampaignController extends ResponseBuilder {
         Campaign campaign;
 
         try {
-            campaign = mailSender.addCampaign().getBody();
+            campaign = null;//mailSender.addCampaign().getBody();
             response = CampaignResponse.CAMPAIGN_ADD_SUCCESS;
             LOG.info("Add Campaign response: " + campaign);
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class CampaignController extends ResponseBuilder {
         SendCampaignErrorResponse errorResponse;
 
         try {
-            errorResponse = mailSender.sendCampaign(name).getBody();
+            errorResponse = null;//mailSender.sendCampaign(name).getBody();
             response = CampaignResponse.CAMPAIGN_SEND_SUCCESS;
             LOG.info("Send Campaign response" + errorResponse);
         } catch (Exception e) {
