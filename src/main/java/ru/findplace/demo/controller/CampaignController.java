@@ -14,17 +14,18 @@ import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
 import ru.findplace.demo.service.MailSender;
+import ru.findplace.demo.service.campaign.CampaignService;
 
 @RestController
 @RequestMapping(value = "/api")
 public class CampaignController extends ResponseBuilder {
 
-    private final MailSender mailSender;
+    private final CampaignService campaignService;
     Logger LOG = LoggerFactory.getLogger(CampaignController.class);
 
     @Autowired
-    public CampaignController(MailSender mailSender) {
-        this.mailSender = mailSender;
+    public CampaignController(CampaignService campaignService) {
+        this.campaignService = campaignService;
     }
 
     @GetMapping(value = "/campaigns")
@@ -33,13 +34,13 @@ public class CampaignController extends ResponseBuilder {
         Response response;
         CampaignsList campaignsList;
         try {
-            campaignsList = null;//mailSender.getCampaignList().getBody();
+            campaignsList = campaignService.getCampaignList();
             response = CampaignResponse.READ_CAMPAIGNS_SUCCESS;
             LOG.info("Get CampaignsList response: " + campaignsList);
         } catch (Exception e) {
             campaignsList = new CampaignsList();
             response = CampaignResponse.READ_CAMPAIGNS_CONFLICT;
-            LOG.error("Get CampaignsList response conflict: ", e);
+            LOG.error("Get CampaignsList response conflict: {}", e);
         }
         return render(campaignsList, response, HttpStatus.OK);
     }
@@ -52,7 +53,7 @@ public class CampaignController extends ResponseBuilder {
         Response response;
 
         try {
-            campaign = null;//mailSender.getCampaignByName(name);
+            campaign = campaignService.getCampaignByName(name);
             response = CampaignResponse.READ_CAMPAIGN_SUCCESS;
             LOG.info("Get Campaign response: " + campaign);
         } catch (Exception e) {
@@ -63,41 +64,58 @@ public class CampaignController extends ResponseBuilder {
         return render(campaign, response, HttpStatus.OK);
     }
 
-    //убрать хард-код в сервисе
     @PostMapping(value = "/campaigns")
-    public ResponseEntity<ResponseWrapper> addCampaign(){
+    public ResponseEntity<ResponseWrapper> addCampaign(@RequestBody Campaign campaignRequestDto){
 
         LOG.info("Add Campaign request");
         Response response;
-        Campaign campaign;
+        Campaign campaignResponseDto;
 
         try {
-            campaign = null;//mailSender.addCampaign().getBody();
+            campaignResponseDto = campaignService.addCampaign(campaignRequestDto);
             response = CampaignResponse.CAMPAIGN_ADD_SUCCESS;
-            LOG.info("Add Campaign response: " + campaign);
+            LOG.info("Add Campaign response: " + campaignResponseDto);
         } catch (Exception e) {
-            campaign = new Campaign();
+            campaignResponseDto = new Campaign();
             response = CampaignResponse.CAMPAIGN_ADD_CONFLICT;
             LOG.error("Add Campaign response confilct:", e);
         }
-        return render(campaign, response, HttpStatus.OK);
+        return render(campaignResponseDto, response, HttpStatus.OK);
     }
 
-    //Написать обработчик ошибок
-    @PostMapping(value = "/campaign/send")
-    public ResponseEntity<ResponseWrapper> sendCampaign(@RequestParam String name){
+    @PostMapping(value = "/campaign/{id}/send")
+    public ResponseEntity<ResponseWrapper> sendCampaign(@PathVariable String id){
         LOG.info("Send Campaign request");
         Response response;
         SendCampaignErrorResponse errorResponse;
 
         try {
-            errorResponse = null;//mailSender.sendCampaign(name).getBody();
+            errorResponse = campaignService.sendCampaign(id);
             response = CampaignResponse.CAMPAIGN_SEND_SUCCESS;
             LOG.info("Send Campaign response" + errorResponse);
         } catch (Exception e) {
             errorResponse = new SendCampaignErrorResponse();
             response = CampaignResponse.CAMPAIGN_SEND_CONFLICT;
             LOG.error("Send Campaign conflict: ",e);
+        }
+        return render(errorResponse,response, HttpStatus.OK);
+    }
+
+    //не работает корректно
+    @PostMapping(value = "/campaign/{id}/re-send")
+    public ResponseEntity<ResponseWrapper> resendCampaign(@PathVariable String id){
+        LOG.info("ReSend Campaign request");
+        Response response;
+        SendCampaignErrorResponse errorResponse;
+
+        try {
+            errorResponse = campaignService.resendCampaign(id);
+            response = CampaignResponse.CAMPAIGN_RESEND_SUCCESS;
+            LOG.info("ReSend Campaign response" + errorResponse);
+        } catch (Exception e) {
+            errorResponse = new SendCampaignErrorResponse();
+            response = CampaignResponse.CAMPAIGN_RESEND_CONFLICT;
+            LOG.error("ReSend Campaign conflict: ",e);
         }
         return render(errorResponse,response, HttpStatus.OK);
     }

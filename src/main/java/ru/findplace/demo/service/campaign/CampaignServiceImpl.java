@@ -1,71 +1,88 @@
 package ru.findplace.demo.service.campaign;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.findplace.demo.entity.campaign.Campaign;
 import ru.findplace.demo.entity.campaign.CampaignsList;
-import ru.findplace.demo.entity.campaign.Recipients;
-import ru.findplace.demo.entity.campaign.Settings;
-import ru.findplace.demo.entity.template.Template;
 import ru.findplace.demo.response.SendCampaignErrorResponse;
+import ru.findplace.demo.service.MailSender;
 
-public class CampaignServiceImpl  {
-//    //Убрать хардкод
-//    @Override
-//    public ResponseEntity<Campaign> addCampaign() {
-//        Campaign campaign = new Campaign();
-//        campaign.setType("regular");
-//
-//        Recipients recipients = new Recipients();
-//        //Make check null
-//        String idCamp = getCampaignsBookItemIdByName("FindPlace");
-//        recipients.setListId(idCamp);
-//        campaign.setRecipients(recipients);
-//
-//        //Не до конца заполняет
-//        Settings settings = new Settings();
-//        settings.setSubjectLine("sub_line");
-//        settings.setTitle("TestCampFronServer");
-//        settings.setFromName("From Name");
-//        //settings.setAutoFooter(true);
-//        Template template = getTemplateByName("TestTemplate");
-//        settings.setTemplateId(template.getId());
-//        campaign.setSettings(settings);
-//
-//        HttpEntity<Campaign> httpEntity = new HttpEntity<>(campaign, headerUtils.getHttpHeader());
-//        return restTemplate.postForEntity(headerUtils.getBaseUrl() + "/campaigns",httpEntity, Campaign.class);
-//    }
-//
-//    @Override
-//    public ResponseEntity<CampaignsList> getCampaignList() {
-//        return restTemplate.getForEntity(headerUtils.getBaseUrl()+"/campaigns"+"/?apikey=" + headerUtils.getApiKey(), CampaignsList.class);
-//    }
-//    @Override
-//    public ResponseEntity<SendCampaignErrorResponse> sendCampaign(String name) {
-//        HttpEntity httpEntity = new HttpEntity(headerUtils.getHttpHeader());
-//        //Проверка на нул
-//        Campaign campaign = getCampaignByName(name);
-//        //ResponseEntity<SendCampaignErrorResponse> request =
-//        restTemplate.postForLocation(
-//                headerUtils.getBaseUrl() + "/campaigns/" + campaign.getId() + "/actions/send",
-//                httpEntity,
-//                SendCampaignErrorResponse.class);
-//        return new ResponseEntity<SendCampaignErrorResponse>(HttpStatus.OK);
-//    }
-//
-//    @Override
-//    public Campaign getCampaignByName(String name) {
-//        CampaignsList campaignList = getCampaignList().getBody();
-//        Campaign campaign = null;
-//        if (campaignList != null) {
-//            campaign = campaignList
-//                    .getCampaigns()
-//                    .stream()
-//                    .filter(list -> list.getSettings().getTitle().equals(name))
-//                    .findFirst()
-//                    .get();
-//        }
-//        return campaign;
-//    }
+@Service
+public class CampaignServiceImpl implements CampaignService{
+
+    private final MailSender mailSender;
+
+    @Autowired
+    public CampaignServiceImpl(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    @Override
+    public CampaignsList getCampaignList() {
+        return mailSender.doGet("/campaigns", CampaignsList.class, true);
+    }
+
+    @Override
+    public Campaign getCampaignByName(String name) {
+        CampaignsList campaignList = getCampaignList();
+        Campaign campaign = null;
+        if (campaignList != null) {
+            campaign = campaignList
+                    .getCampaigns()
+                    .stream()
+                    .filter(list -> list.getSettings().getTitle().equals(name))
+                    .findFirst()
+                    .get();
+        }
+        return campaign;
+    }
+
+    @Override
+    public Campaign addCampaign(Campaign campaignRequestDto) {
+    /*{
+            "type": "regular",
+            "recipients": {
+                "list_id": "92d74e6167"
+            },
+            "settings": {
+                "subject_line": "Test_subject",
+                "preview_text": "My prewie text",
+                "title": "TryAgainTestCampaign",
+                "from_name": "Славян",
+                "reply_to": "slav9n4ik.dev@gmail.com",
+                "use_conversation": false,
+                "to_name": "",
+                "folder_id": "",
+                "authenticate": true,
+                "auto_footer": false,
+                "inline_css": false,
+                "auto_tweet": false,
+                "fb_comments": true,
+                "timewarp": false,
+                "template_id": 8177,
+                "drag_and_drop": true
+            }
+}*/
+        return mailSender.doPost("/campaigns", campaignRequestDto, Campaign.class);
+    }
+
+    @Override
+    public SendCampaignErrorResponse sendCampaign(String id) {
+        SendCampaignErrorResponse sendCampaignErrorResponse = mailSender.doPost(
+                    "/campaigns/" + id + "/actions/send",
+                    new SendCampaignErrorResponse(),
+                SendCampaignErrorResponse.class
+            );
+        return sendCampaignErrorResponse;
+    }
+
+    @Override
+    public SendCampaignErrorResponse resendCampaign(String id) {
+        SendCampaignErrorResponse resendCampaignErrorResponse = mailSender.doPost(
+                "/campaigns/" + id + "/actions/create-resend",
+                new SendCampaignErrorResponse(),
+                SendCampaignErrorResponse.class
+        );
+        return resendCampaignErrorResponse;
+    }
 }

@@ -1,20 +1,12 @@
 package ru.findplace.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.findplace.demo.entity.campaign.Campaign;
-import ru.findplace.demo.entity.campaign.CampaignsList;
-import ru.findplace.demo.entity.campaign.Recipients;
-import ru.findplace.demo.entity.campaign.Settings;
-import ru.findplace.demo.entity.campaignbooklist.CampaignsBookItem;
-import ru.findplace.demo.entity.campaignbooklist.CampaignsBookLists;
-import ru.findplace.demo.entity.campaignbooklist.Member;
-import ru.findplace.demo.entity.campaignbooklist.MembersList;
-import ru.findplace.demo.entity.template.Template;
-import ru.findplace.demo.entity.template.TemplateList;
-import ru.findplace.demo.response.SendCampaignErrorResponse;
 import ru.findplace.demo.utils.HeaderUtils;
 
 @Service

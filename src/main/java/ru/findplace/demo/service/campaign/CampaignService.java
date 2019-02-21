@@ -5,8 +5,9 @@ import ru.findplace.demo.entity.campaign.CampaignsList;
 import ru.findplace.demo.response.SendCampaignErrorResponse;
 
 public interface CampaignService {
-    Campaign addCampaign();
-    CampaignsList getCampaignList();
-    SendCampaignErrorResponse sendCampaign(String name);
     Campaign getCampaignByName(String name);
+    CampaignsList getCampaignList();
+    Campaign addCampaign(Campaign campaignRequestDto);
+    SendCampaignErrorResponse sendCampaign(String id);
+    SendCampaignErrorResponse resendCampaign(String id);
 }

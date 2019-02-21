@@ -12,7 +12,9 @@ public enum CampaignResponse implements Response, Serializable {
     CAMPAIGN_ADD_SUCCESS(104, "Стратегия добавлена"),
     CAMPAIGN_ADD_CONFLICT(105, "Стратегия не добавлена корректно"),
     CAMPAIGN_SEND_SUCCESS(106, "Стратегия отправлена"),
-    CAMPAIGN_SEND_CONFLICT(107, "Стратегия не отправлена корректно");
+    CAMPAIGN_SEND_CONFLICT(107, "Стратегия не отправлена корректно"),
+    CAMPAIGN_RESEND_CONFLICT(109, "Стратегия не пеотправлена корректно"),
+    CAMPAIGN_RESEND_SUCCESS(108, "Стратегия переотправлена");
 
     private int code;
     private String reasonPhrase;
