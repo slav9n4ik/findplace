@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.findplace.demo.entity.template.Template;
-import ru.findplace.demo.entity.template.TemplateList;
+import ru.findplace.demo.Dtos.mailchimp.template.Template;
+import ru.findplace.demo.Dtos.mailchimp.template.TemplateList;
 import ru.findplace.demo.response.TemplateResponse;
 import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
-import ru.findplace.demo.service.MailSender;
 import ru.findplace.demo.service.template.TemplateService;
 
 import javax.validation.constraints.NotNull;

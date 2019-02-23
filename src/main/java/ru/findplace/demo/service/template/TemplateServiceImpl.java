@@ -2,8 +2,8 @@ package ru.findplace.demo.service.template;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.findplace.demo.entity.template.Template;
-import ru.findplace.demo.entity.template.TemplateList;
+import ru.findplace.demo.Dtos.mailchimp.template.Template;
+import ru.findplace.demo.Dtos.mailchimp.template.TemplateList;
 import ru.findplace.demo.service.MailSender;
 
 @Service

@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.findplace.demo.entity.campaign.Campaign;
-import ru.findplace.demo.entity.campaign.CampaignsList;
+import ru.findplace.demo.Dtos.mailchimp.campaign.Campaign;
+import ru.findplace.demo.Dtos.mailchimp.campaign.CampaignsList;
 import ru.findplace.demo.response.CampaignResponse;
 import ru.findplace.demo.response.SendCampaignErrorResponse;
 import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
-import ru.findplace.demo.service.MailSender;
 import ru.findplace.demo.service.campaign.CampaignService;
 
 @RestController

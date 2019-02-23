@@ -1,7 +1,7 @@
 package ru.findplace.demo.service.template;
 
-import ru.findplace.demo.entity.template.Template;
-import ru.findplace.demo.entity.template.TemplateList;
+import ru.findplace.demo.Dtos.mailchimp.template.Template;
+import ru.findplace.demo.Dtos.mailchimp.template.TemplateList;
 
 public interface TemplateService {
     TemplateList getTemplateList();

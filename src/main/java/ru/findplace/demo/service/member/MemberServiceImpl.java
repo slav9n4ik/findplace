@@ -1,12 +1,11 @@
 package ru.findplace.demo.service.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.findplace.demo.entity.campaignbooklist.CampaignsBookItem;
-import ru.findplace.demo.entity.campaignbooklist.CampaignsBookLists;
-import ru.findplace.demo.entity.campaignbooklist.Member;
-import ru.findplace.demo.entity.campaignbooklist.MembersList;
+import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.CampaignsBookItem;
+import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.CampaignsBookLists;
+import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.Member;
+import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.MembersList;
 import ru.findplace.demo.service.MailSender;
 import ru.findplace.demo.service.list.ListService;
 

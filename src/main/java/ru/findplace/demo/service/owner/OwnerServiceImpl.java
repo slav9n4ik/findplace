@@ -2,8 +2,8 @@ package ru.findplace.demo.service.owner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.findplace.demo.entity.owner.Owner;
-import ru.findplace.demo.entity.owner.Ping;
+import ru.findplace.demo.Dtos.mailchimp.owner.Owner;
+import ru.findplace.demo.Dtos.mailchimp.owner.Ping;
 import ru.findplace.demo.service.MailSender;
 
 @Service

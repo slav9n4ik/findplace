@@ -2,8 +2,8 @@ package ru.findplace.demo.service.campaign;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.findplace.demo.entity.campaign.Campaign;
-import ru.findplace.demo.entity.campaign.CampaignsList;
+import ru.findplace.demo.Dtos.mailchimp.campaign.Campaign;
+import ru.findplace.demo.Dtos.mailchimp.campaign.CampaignsList;
 import ru.findplace.demo.response.SendCampaignErrorResponse;
 import ru.findplace.demo.service.MailSender;
 
