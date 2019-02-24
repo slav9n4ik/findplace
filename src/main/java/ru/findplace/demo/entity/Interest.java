@@ -20,6 +20,7 @@ public class Interest {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<User> users;
 
+    private String name;
     private String description;
 
     public Interest() {

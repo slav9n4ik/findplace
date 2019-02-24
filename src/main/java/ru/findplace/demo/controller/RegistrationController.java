@@ -37,17 +37,16 @@ public class RegistrationController extends ResponseBuilder {
         UserResponseDto userResponseDto = new UserResponseDto();
         try {
             boolean isAdd = registrationService.addUser(userRequestDto);
+            userResponseDto.setStatus(isAdd);
             if (!isAdd) {
                 throw new RegistrationException("Не удалось зарегистрировать пользователя");
             }
-            userResponseDto.setStatus(isAdd);
             response = RegistrationResponse.REGISTRATION_SUCCESS;
             String msg = "Пользователь успешно создан";
             userResponseDto.setMessage(msg);
             LOG.info("Registration response: " + msg);
         } catch (Exception e) {
             response = RegistrationResponse.REGISTRATION_CONFLICT;
-            userResponseDto.setStatus(false);
             userResponseDto.setMessage(e.getMessage());
             LOG.error("Registration response conflict: {}", e);
         }

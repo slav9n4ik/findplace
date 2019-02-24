@@ -11,9 +11,9 @@ import java.util.Set;
 @Setter
 @ToString
 public class UserRequestDto {
-    private String login;
+    private String name;
     private String email;
     private String city;
     private String phone;
-    //private Set<Interest> interests;
+    private Set<Interest> interests;
 }
