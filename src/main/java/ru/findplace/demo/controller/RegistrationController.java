@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.findplace.demo.Dtos.UserRequestDto;
 import ru.findplace.demo.Dtos.UserResponseDto;
+import ru.findplace.demo.entity.User;
 import ru.findplace.demo.exception.RegistrationException;
 import ru.findplace.demo.response.RegistrationResponse;
 import ru.findplace.demo.response.base.Response;
@@ -31,7 +31,7 @@ public class RegistrationController extends ResponseBuilder {
     }
 
     @PostMapping(value = "/registration")
-    public ResponseEntity<ResponseWrapper> addUser(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<ResponseWrapper> addUser(@RequestBody User userRequestDto) {
         LOG.info("Registration request");
         Response response;
         UserResponseDto userResponseDto = new UserResponseDto();

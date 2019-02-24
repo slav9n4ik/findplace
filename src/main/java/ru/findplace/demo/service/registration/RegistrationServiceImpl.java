@@ -2,7 +2,6 @@ package ru.findplace.demo.service.registration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.findplace.demo.Dtos.UserRequestDto;
 import ru.findplace.demo.entity.Interest;
 import ru.findplace.demo.entity.User;
 import ru.findplace.demo.repository.InterestRrepository;
@@ -24,18 +23,13 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public boolean addUser(UserRequestDto userRequestDto) {
+    public boolean addUser(User userRequestDto) {
         User user = userRepository.findFirstByEmail(userRequestDto.getEmail());
         if (user != null) {
             return false;
         }
-        User addUser = new User();
-        addUser.setEmail(userRequestDto.getEmail());
-        addUser.setName(userRequestDto.getName());
-        addUser.setCity(userRequestDto.getCity());
-        addUser.setPhone(userRequestDto.getPhone());
-        addUser.setInterests(getInterestsIds(userRequestDto.getInterests()));
-        userRepository.save(addUser);
+        userRequestDto.setInterests(getInterestsIds(userRequestDto.getInterests()));
+        userRepository.save(userRequestDto);
         return true;
     }
 
