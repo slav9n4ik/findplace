@@ -15,5 +15,5 @@ public class UserRequestDto {
     private String email;
     private String city;
     private String phone;
-    private Set<Interest> interests;
+    //private Set<Interest> interests;
 }

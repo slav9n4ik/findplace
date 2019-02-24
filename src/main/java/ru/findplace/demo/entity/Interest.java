@@ -18,7 +18,7 @@ public class Interest {
     private Long interest_id;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Users> users;
+    private Set<User> users;
 
     private String description;
 

@@ -11,7 +11,8 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-public class Users {
+@Table(name = "t_user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,11 +25,11 @@ public class Users {
     )
     private Set<Interest> interests;
 
-    private String login;
+    private String name;
     private String email;
     private String city;
     private String phone;
 
-    public Users() {
+    public User() {
     }
 }

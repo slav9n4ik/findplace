@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.findplace.demo.Dtos.UserRequestDto;
+import ru.findplace.demo.Dtos.UserResponseDto;
+import ru.findplace.demo.exception.RegistrationException;
 import ru.findplace.demo.response.RegistrationResponse;
 import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
@@ -32,16 +34,23 @@ public class RegistrationController extends ResponseBuilder {
     public ResponseEntity<ResponseWrapper> addUser(@RequestBody UserRequestDto userRequestDto) {
         LOG.info("Registration request");
         Response response;
-        String registrationResponse;
+        UserResponseDto userResponseDto = new UserResponseDto();
         try {
-            registrationResponse = registrationService.addUser(userRequestDto);
+            boolean isAdd = registrationService.addUser(userRequestDto);
+            if (!isAdd) {
+                throw new RegistrationException("Не удалось зарегистрировать пользователя");
+            }
+            userResponseDto.setStatus(isAdd);
             response = RegistrationResponse.REGISTRATION_SUCCESS;
-            LOG.info("Registration response: " + registrationResponse);
+            String msg = "Пользователь успешно создан";
+            userResponseDto.setMessage(msg);
+            LOG.info("Registration response: " + msg);
         } catch (Exception e) {
             response = RegistrationResponse.REGISTRATION_CONFLICT;
-            registrationResponse = e.getMessage();
+            userResponseDto.setStatus(false);
+            userResponseDto.setMessage(e.getMessage());
             LOG.error("Registration response conflict: {}", e);
         }
-        return render(registrationResponse, response, HttpStatus.OK);
+        return render(userResponseDto, response, HttpStatus.OK);
     }
 }
