@@ -44,7 +44,7 @@ public class OwnerController extends ResponseBuilder {
         } catch (Exception e) {
             owner = new Owner();
             response = OwnerResponse.OWNER_READ_CONFLICT;
-            LOG.error("Owner response conflict: ",e);
+            LOG.error("Owner response conflict: " + e.getMessage());
         }
         return render(owner, response, HttpStatus.OK);
     }
@@ -65,7 +65,7 @@ public class OwnerController extends ResponseBuilder {
         } catch (Exception e) {
             ping = null;
             response = OwnerResponse.PING_READ_CONFLICT;
-            LOG.error("Ping response conflict: ",e);
+            LOG.error("Ping response conflict: " + e.getMessage());
         }
         return render(ping, response, HttpStatus.OK);
     }

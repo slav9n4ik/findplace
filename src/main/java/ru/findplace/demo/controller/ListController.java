@@ -41,7 +41,7 @@ public class ListController extends ResponseBuilder {
         } catch (Exception e) {
             bookLists = new CampaignsBookLists();
             response = ListResponse.LIST_READ_CONFLICT;
-            LOG.error("Get CampaignsBookLists response conflict: ", e);
+            LOG.error("Get CampaignsBookLists response conflict: " + e.getMessage());
         }
         return render(bookLists, response, HttpStatus.OK);
     }
@@ -62,7 +62,7 @@ public class ListController extends ResponseBuilder {
         } catch (Exception e) {
             bookList = new CampaignsBookItem();
             response = ListResponse.LIST_ADD_CONFLICT;
-            LOG.error("Add CampaignsBookItem response conflict: ", e);
+            LOG.error("Add CampaignsBookItem response conflict: " + e.getMessage());
         }
         return render(bookList, response, HttpStatus.OK);
     }

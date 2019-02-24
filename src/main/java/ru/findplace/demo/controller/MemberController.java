@@ -43,13 +43,13 @@ public class MemberController extends ResponseBuilder {
         }catch (Exception e) {
             membersList = new MembersList();
             response = MemberResponse.MEMBER_READ_CONFLICT;
-            LOG.error("Get MembersList response conflict: ", e);
+            LOG.error("Get MembersList response conflict: " + e);
         }
         return render(membersList, response, HttpStatus.OK);
     }
 
     /**
-     * Добавляет контакты по имени списка
+     * Добавляет контакт в список имени списка
      * @param name - имя списка
      */
     @PostMapping(value = "/members")
@@ -64,7 +64,7 @@ public class MemberController extends ResponseBuilder {
         } catch (Exception e) {
             responseMember = new Member();
             response = MemberResponse.MEMBER_ADD_CONFLICT;
-            LOG.error("Add Member response conflict: ", e);
+            LOG.error("Add Member response conflict: " + e.getMessage());
         }
         return render(responseMember, response, HttpStatus.OK);
     }

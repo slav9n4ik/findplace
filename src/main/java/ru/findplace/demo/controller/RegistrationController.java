@@ -48,7 +48,7 @@ public class RegistrationController extends ResponseBuilder {
         } catch (Exception e) {
             response = RegistrationResponse.REGISTRATION_CONFLICT;
             userResponseDto.setMessage(e.getMessage());
-            LOG.error("Registration response conflict: {}", e);
+            LOG.error("Registration response conflict: " + e.getMessage());
         }
         return render(userResponseDto, response, HttpStatus.OK);
     }

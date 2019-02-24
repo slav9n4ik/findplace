@@ -43,7 +43,7 @@ public class TemplateController extends ResponseBuilder {
         } catch (Exception e) {
             templateList = new TemplateList();
             response = TemplateResponse.READ_TEMPLATES_CONFLICT;
-            LOG.error("Get TemplateList response conflict: ", e);
+            LOG.error("Get TemplateList response conflict: " + e.getMessage());
         }
         return render(templateList, response, HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class TemplateController extends ResponseBuilder {
         } catch (Exception e) {
             template = new Template();
             response = TemplateResponse.READ_TEMPLATE_CONFLICT;
-            LOG.error("Get TemplateId by name response: ", e);
+            LOG.error("Get TemplateId by name response: " + e.getMessage());
         }
         return render(template, response, HttpStatus.OK);
     }

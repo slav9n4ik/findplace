@@ -39,7 +39,7 @@ public class CampaignController extends ResponseBuilder {
         } catch (Exception e) {
             campaignsList = new CampaignsList();
             response = CampaignResponse.READ_CAMPAIGNS_CONFLICT;
-            LOG.error("Get CampaignsList response conflict: {}", e);
+            LOG.error("Get CampaignsList response conflict: " + e.getMessage());
         }
         return render(campaignsList, response, HttpStatus.OK);
     }
@@ -58,7 +58,7 @@ public class CampaignController extends ResponseBuilder {
         } catch (Exception e) {
             campaign = new Campaign();
             response = CampaignResponse.READ_CAMPAIGN_CONFLICT;
-            LOG.error("Get Campaign response conflict: ", e);
+            LOG.error("Get Campaign response conflict: " + e.getMessage());
         }
         return render(campaign, response, HttpStatus.OK);
     }
@@ -77,7 +77,7 @@ public class CampaignController extends ResponseBuilder {
         } catch (Exception e) {
             campaignResponseDto = new Campaign();
             response = CampaignResponse.CAMPAIGN_ADD_CONFLICT;
-            LOG.error("Add Campaign response confilct:", e);
+            LOG.error("Add Campaign response confilct:" + e.getMessage());
         }
         return render(campaignResponseDto, response, HttpStatus.OK);
     }
@@ -95,7 +95,7 @@ public class CampaignController extends ResponseBuilder {
         } catch (Exception e) {
             errorResponse = new SendCampaignErrorResponse();
             response = CampaignResponse.CAMPAIGN_SEND_CONFLICT;
-            LOG.error("Send Campaign conflict: ",e);
+            LOG.error("Send Campaign conflict: " + e.getMessage());
         }
         return render(errorResponse,response, HttpStatus.OK);
     }
@@ -114,7 +114,7 @@ public class CampaignController extends ResponseBuilder {
         } catch (Exception e) {
             errorResponse = new SendCampaignErrorResponse();
             response = CampaignResponse.CAMPAIGN_RESEND_CONFLICT;
-            LOG.error("ReSend Campaign conflict: ",e);
+            LOG.error("ReSend Campaign conflict: " + e.getMessage());
         }
         return render(errorResponse,response, HttpStatus.OK);
     }
