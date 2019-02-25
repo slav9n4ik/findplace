@@ -6,6 +6,7 @@ import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.Member;
 import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.MergeFields;
 import ru.findplace.demo.entity.Interest;
 import ru.findplace.demo.entity.User;
+import ru.findplace.demo.exception.RegistrationException;
 import ru.findplace.demo.repository.InterestRrepository;
 import ru.findplace.demo.repository.UserRepository;
 import ru.findplace.demo.service.member.MemberService;
@@ -28,10 +29,10 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public boolean addUser(User userRequestDto) {
+    public boolean addUser(User userRequestDto) throws RegistrationException {
         User user = userRepository.findFirstByEmail(userRequestDto.getEmail());
         if (user != null) {
-            return false;
+            throw new RegistrationException("Пользователь с таким email уже существует");
         }
         userRequestDto.setInterests(getInterestsIds(userRequestDto));
         userRepository.save(userRequestDto);

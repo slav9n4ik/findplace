@@ -61,6 +61,8 @@ public class MemberServiceImpl implements MemberService {
             }
         } catch (NoSuchElementException e) {
             LOG.error("Нет списка с таким названием: " + e.getMessage());
+            //campaignsBookItem.
+            //listService.addCompanyList()
         }
 
         return campaignsBookItem != null ? campaignsBookItem.getId() : null;

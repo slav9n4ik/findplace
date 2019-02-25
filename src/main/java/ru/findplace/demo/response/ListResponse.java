@@ -8,7 +8,8 @@ public enum ListResponse implements Response, Serializable {
     LIST_READ_SUCCESS(100, "Списки получены"),
     LIST_READ_CONFLICT(101, "Списки неполучены корректно"),
     LIST_ADD_SUCCESS(102, "Список добавлен"),
-    LIST_ADD_CONFLICT(103, "Списки не добавлен корректно");
+    LIST_ADD_CONFLICT(103, "Списки не добавлен корректно"),
+    LIST_ADD_SAME(105, "Список с таким именем уже существует");
 
     private int code;
     private String reasonPhrase;

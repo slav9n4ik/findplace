@@ -5,4 +5,5 @@ import ru.findplace.demo.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
     User findFirstByEmail(String email);
+    User findByName(String email);
 }

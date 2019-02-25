@@ -36,16 +36,17 @@ public class RegistrationController extends ResponseBuilder {
         Response response;
         UserResponseDto userResponseDto = new UserResponseDto();
         try {
-            boolean isAdd = registrationService.addUser(userRequestDto);
-            userResponseDto.setStatus(isAdd);
-            if (!isAdd) {
-                throw new RegistrationException("Не удалось зарегистрировать пользователя");
-            }
+            userResponseDto.setStatus(registrationService.addUser(userRequestDto));
             response = RegistrationResponse.REGISTRATION_SUCCESS;
             String msg = "Пользователь успешно создан";
             userResponseDto.setMessage(msg);
             LOG.info("Registration response: " + msg);
-        } catch (Exception e) {
+        } catch (RegistrationException e) {
+            LOG.error("Registration response same email: " + e.getMessage());
+            response = RegistrationResponse.REGISTRATION_SAME;
+            userResponseDto.setMessage("Используйте другой email");
+        }
+        catch (Exception e) {
             response = RegistrationResponse.REGISTRATION_CONFLICT;
             userResponseDto.setMessage(e.getMessage());
             LOG.error("Registration response conflict: " + e.getMessage());

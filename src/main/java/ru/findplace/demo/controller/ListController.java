@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.CampaignsBookItem;
 import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.CampaignsBookLists;
+import ru.findplace.demo.exception.AddListException;
 import ru.findplace.demo.response.ListResponse;
+import ru.findplace.demo.response.SendCampaignErrorResponse;
 import ru.findplace.demo.response.base.Response;
 import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
@@ -53,13 +55,17 @@ public class ListController extends ResponseBuilder {
     public ResponseEntity<ResponseWrapper> addList(@RequestBody CampaignsBookItem campaignsBookItem) {
         Response response;
         CampaignsBookItem bookList;
-
         LOG.info("Add CampaignsBookItem request");
         try {
             bookList = listService.addCompanyList(campaignsBookItem);
             response = ListResponse.LIST_ADD_SUCCESS;
             LOG.info("Add CampaignsBookItem response: " +bookList.toString());
-        } catch (Exception e) {
+        } catch (AddListException e) {
+            LOG.error(e.getMessage());
+            response = ListResponse.LIST_ADD_SAME;
+            bookList = new CampaignsBookItem();
+        }
+        catch (Exception e) {
             bookList = new CampaignsBookItem();
             response = ListResponse.LIST_ADD_CONFLICT;
             LOG.error("Add CampaignsBookItem response conflict: " + e.getMessage());

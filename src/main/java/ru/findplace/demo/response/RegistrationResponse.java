@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 public enum RegistrationResponse implements Response, Serializable {
     REGISTRATION_SUCCESS(100, "Регистрация прошла успешно"),
-    REGISTRATION_CONFLICT(101, "Ошибка при регистрации");
+    REGISTRATION_CONFLICT(101, "Ошибка при регистрации"),
+    REGISTRATION_SAME(103, "Пользователь с таким email уже существует");
 
     private int code;
     private String reasonPhrase;
