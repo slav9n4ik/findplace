@@ -7,19 +7,26 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import ru.findplace.demo.service.UserService;
+import ru.findplace.demo.entity.User;
+import ru.findplace.demo.service.SpringDataJpaUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final SpringDataJpaUserDetailsService userDetailsService;
 
     @Autowired
-    public WebSecurityConfig(UserService userService) {
-        this.userService = userService;
+    public WebSecurityConfig(SpringDataJpaUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(this.userDetailsService)
+                .passwordEncoder(User.PASSWORD_ENCODER);
     }
 
 
@@ -27,22 +34,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/home").permitAll()
+                .antMatchers("/built/**", "/main.css").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
                 .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/login?logout")
-                .and().csrf()
-                .and().exceptionHandling().accessDeniedPage("/403");
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+                .httpBasic()
+                .and()
+                .csrf().disable()
+                .logout()
+                .logoutSuccessUrl("/");
     }
 }
 

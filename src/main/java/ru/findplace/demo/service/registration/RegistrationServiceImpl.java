@@ -30,7 +30,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public boolean addUser(User userRequestDto) throws RegistrationException {
-        User user = userRepository.findFirstByEmail(userRequestDto.getEmail());
+        User user = userRepository.findByEmail(userRequestDto.getEmail());
         if (user != null) {
             throw new RegistrationException("Пользователь с таким email уже существует");
         }

@@ -1,10 +1,13 @@
 package ru.findplace.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -12,21 +15,24 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "password")
 @Entity
 @Table(name = "t_user")
-public class User implements UserDetails {
+public class User {
+
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long user_id;
 
-    private String name;
+    @JsonIgnore
     private String password;
+
+    private String name;
     private String email;
     private String city;
     private String phone;
-    private boolean active;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "T_USER_INTEREST",
@@ -43,35 +49,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+    public User(String email, String password, Set<Role> roles) {
+        this.email = email;
+        this.setPassword(password);
+        this.roles = roles;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
+    public void setPassword(String password) {
+        this.password = PASSWORD_ENCODER.encode(password);
     }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive();
-    }
-
-
 }
