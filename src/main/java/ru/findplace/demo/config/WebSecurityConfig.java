@@ -37,15 +37,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/built/**", "/main.css").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .defaultSuccessUrl("/", true)
+                .formLogin().loginPage("/login")
+                .defaultSuccessUrl("/home", true)
                 .permitAll()
                 .and()
                 .httpBasic()
                 .and()
                 .csrf().disable()
                 .logout()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/login").permitAll();
     }
 }
 

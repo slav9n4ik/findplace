@@ -2,7 +2,9 @@
 !.mvn/wrapper/maven-wrapper.jar
 
 # properties
+*.class
 application.properties
+!example-application.properties
 
 ### STS ###
 .apt_generated
