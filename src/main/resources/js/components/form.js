@@ -17,7 +17,6 @@ class Form extends Component {
         this.handleError = this.handleError.bind(this);
         this.renderError = this.renderError.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-//        this.handleLogOut = this.handleLogOut.bind(this);
     }
 
     handleError = (field, errmsg) => {
@@ -60,20 +59,6 @@ class Form extends Component {
                 .catch(e => console.warn(e))
         }
     };
-    //
-    // handleLogOut = (event) => {
-    //     event.preventDefault();
-    //     const data = new FormData(this.form);
-    //     fetch('/logout', {
-    //         method: this.form.method,
-    //         body: new URLSearchParams(data)
-    //     })
-    //         .then(v => {
-    //             if (v.redirected) window.location = v.url
-    //         })
-    //         .catch(e => console.warn(e))
-    //
-    // };
 
     render() {
         const inputs = this.props.inputs.map(
