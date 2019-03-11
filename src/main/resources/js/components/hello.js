@@ -5,11 +5,11 @@ const Hello = () => {
     const handleLogOut = (event) => {
         event.preventDefault();
         fetch('/logout', {
-            method: 'POST',
-            body: ''
+            method: 'GET',
+            headers:{"X-Requested-With": 'XMLHttpRequest'}
         })
             .then(v => {
-                if (v.redirected) window.location = v.url
+                window.location.replace("/login");
             })
             .catch(e => console.warn(e))
 
@@ -18,12 +18,11 @@ const Hello = () => {
     return(
         <div>
             <h1>Hello page</h1>
-            <form action="/logout" method="post">
                 <input
-                    type="submit"
+                    type="button"
+                    onClick={handleLogOut}
                     value="Logout"
                 />
-            </form>
         </div>
     );
 };

@@ -1,22 +1,17 @@
 package ru.findplace.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginController {
-//    @RequestMapping(value = "/")
-//    public String index() {
-//        return "index";
-//    }
-    @GetMapping(value = "/login")
-    public String getLoginPage() {
+    @GetMapping("/login")
+    public String login(Model model) {
+        Logger LOG = LoggerFactory.getLogger(LoginController.class);
+        LOG.info("Login");
         return "login";
     }
-//
-//    @GetMapping(value = "/hello")
-//    public String getHelloPage() {
-//        return "hello";
-//    }
 }

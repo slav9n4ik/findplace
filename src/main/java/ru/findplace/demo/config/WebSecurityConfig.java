@@ -7,25 +7,26 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.findplace.demo.entity.User;
-import ru.findplace.demo.service.SpringDataJpaUserDetailsService;
+import ru.findplace.demo.service.user.UserService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final SpringDataJpaUserDetailsService userDetailsService;
+    private final UserService userService;
 
     @Autowired
-    public WebSecurityConfig(SpringDataJpaUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public WebSecurityConfig(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(this.userDetailsService)
+                .userDetailsService(this.userService)
                 .passwordEncoder(User.PASSWORD_ENCODER);
     }
 
@@ -34,18 +35,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login","/built/**", "/main.css").permitAll()
+                .antMatchers(
+                        "/registration**","/logout",
+                        "/js/**",
+                        "/css/**",
+                        "/img/**",
+                        "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login")
-                .defaultSuccessUrl("/hello", true)
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/",true)
                 .permitAll()
                 .and()
                 .httpBasic()
                 .and()
-                .csrf().disable()
                 .logout()
-                .logoutSuccessUrl("/login").permitAll();
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .permitAll();
     }
+
 }
 
