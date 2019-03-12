@@ -69,6 +69,7 @@ public class UserController {
             userService.save(userDto, interestValues);
             LOG.info("Registration response: User saved." + userDto);
         } catch (Exception e) {
+            e.printStackTrace();
             LOG.error("Registration response conflict: " + e.getMessage());
         }
         return "redirect:/registration?success";

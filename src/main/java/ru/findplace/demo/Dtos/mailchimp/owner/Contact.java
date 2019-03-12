@@ -12,20 +12,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "company",
-        "addr1",
-        "addr2",
+        "address1",
+        "address2",
         "city",
         "state",
         "zip",
+        "phone",
         "country"
 })
 public class Contact {
 
     @JsonProperty("company")
     private String company;
-    @JsonProperty("addr1")
+    @JsonProperty("address1")
     private String addr1;
-    @JsonProperty("addr2")
+    @JsonProperty("address2")
     private String addr2;
     @JsonProperty("city")
     private String city;
@@ -35,9 +36,12 @@ public class Contact {
     private String zip;
     @JsonProperty("country")
     private String country;
+
+    @JsonProperty("phone")
+    private String phone;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
     @JsonProperty("company")
     public String getCompany() {
         return company;
@@ -46,6 +50,16 @@ public class Contact {
     @JsonProperty("company")
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    @JsonProperty("phone")
+    public String getPhone() {
+        return phone;
+    }
+
+    @JsonProperty("phone")
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @JsonProperty("addr1")

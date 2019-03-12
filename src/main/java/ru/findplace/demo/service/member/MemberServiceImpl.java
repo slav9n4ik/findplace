@@ -3,11 +3,11 @@ package ru.findplace.demo.service.member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.CampaignsBookItem;
-import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.CampaignsBookLists;
-import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.Member;
-import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.MembersList;
+import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.*;
+import ru.findplace.demo.Dtos.mailchimp.owner.Contact;
+import ru.findplace.demo.exception.AddListException;
 import ru.findplace.demo.service.MailSender;
 import ru.findplace.demo.service.list.ListService;
 
@@ -20,11 +20,14 @@ public class MemberServiceImpl implements MemberService {
 
     private final MailSender mailSender;
     private final ListService listService;
+    private static Environment env;
+    private static String EMAIL_FROM;
 
     @Autowired
-    public MemberServiceImpl(MailSender mailSender, ListService listService) {
+    public MemberServiceImpl(Environment env, MailSender mailSender, ListService listService) {
         this.mailSender = mailSender;
         this.listService = listService;
+        EMAIL_FROM = env.getProperty("mailchimp.api.mail");
     }
 
     @Override
@@ -61,8 +64,35 @@ public class MemberServiceImpl implements MemberService {
             }
         } catch (NoSuchElementException e) {
             LOG.error("Нет списка с таким названием: " + e.getMessage());
-            //campaignsBookItem.
-            //listService.addCompanyList()
+            Contact contact = new Contact();
+            contact.setAddr1("Gagarina");
+            contact.setAddr2("2");
+            contact.setState("");
+            contact.setPhone("");
+            contact.setCompany("FindPlace");
+            contact.setCity("Moscow");
+            contact.setZip("141701");
+            contact.setCountry("RU");
+
+            CampaignDefaults campaignDefaults = new CampaignDefaults();
+            campaignDefaults.setFromEmail(EMAIL_FROM);
+            campaignDefaults.setFromName("slav9n4ik");
+            campaignDefaults.setSubject("");
+            campaignDefaults.setLanguage("en");
+
+            campaignsBookItem = new CampaignsBookItem();
+            campaignsBookItem.setName(name);
+            campaignsBookItem.setContact(contact);
+            campaignsBookItem.setPermissionReminder("Вы получили это письмо, " +
+                    "потому что Вы подписаль на рассылку в категории "+name+".");
+            campaignsBookItem.setCampaignDefaults(campaignDefaults);
+            campaignsBookItem.setEmailTypeOption(false);
+
+            try {
+                listService.addCompanyList(campaignsBookItem);
+            } catch (AddListException e1) {
+                e1.printStackTrace();
+            }
         }
 
         return campaignsBookItem != null ? campaignsBookItem.getId() : null;
