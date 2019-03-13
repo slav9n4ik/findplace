@@ -17,10 +17,12 @@ import ru.findplace.demo.service.user.UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    public WebSecurityConfig(UserService userService) {
+    public WebSecurityConfig(UserService userService, MyBasicAuthenticationEntryPoint authenticationEntryPoint) {
         this.userService = userService;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**",
                         "/css/**",
                         "/img/**",
+                        "/templates/**",
                         "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -49,16 +52,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .csrf().disable()
                 .logout()
-                .logoutSuccessUrl("/");
-//                .logout()
-//                .invalidateHttpSession(true)
-//                .clearAuthentication(true)
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/login?logout")
-//                .permitAll();
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .permitAll();
     }
 
 }
