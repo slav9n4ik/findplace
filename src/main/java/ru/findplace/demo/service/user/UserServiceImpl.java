@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,6 +51,14 @@ public class UserServiceImpl implements UserService {
         setInterests(user, interestValues);
         setInterestsInMemberGroups(user);
         return userRepository.save(user);
+    }
+
+    @Override
+    public Set<Interest> getUserInterests() {
+        String curUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User curUser = userRepository.findByEmail(curUserEmail);
+        Set<Interest> list = curUser.getInterests();
+        return list;
     }
 
     @Override
