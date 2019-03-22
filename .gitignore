@@ -28,3 +28,4 @@ application.properties
 /dist/
 /nbdist/
 /.nb-gradle/
+node_modules
