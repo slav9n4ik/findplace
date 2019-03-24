@@ -10,7 +10,9 @@ public enum SettingsResponse implements Response, Serializable {
     UPDATE_SUCCESS(102, "Данные успешно обновлены"),
     UPDATE_CONFLICT(103, "Данные не обновлены"),
     DELETE_SUCCESS(104, "Интерес удален успешно"),
-    DELETE_CONFLICT(105, "Интерес не удален");
+    DELETE_CONFLICT(105, "Интерес не удален"),
+    GET_SUCCESS(106, "Пользователь успешно получен"),
+    GET_CONFLICT(107, "Пользователь не получен");
 
     private int code;
     private String reasonPhrase;

@@ -10,4 +10,6 @@ public interface SettingsService {
     Set<Interest> putUserInterest(String interestName);
     Set<Interest> deleteUserInterest(String interestName);
     User updateUser(UpdateUserDto updateUserDto);
+
+    UpdateUserDto getUser();
 }

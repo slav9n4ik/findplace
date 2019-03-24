@@ -15,9 +15,7 @@ import ru.findplace.demo.response.base.ResponseBuilder;
 import ru.findplace.demo.response.base.ResponseWrapper;
 import ru.findplace.demo.service.user.SettingsService;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -30,6 +28,23 @@ public class SettingsController extends ResponseBuilder {
     @Autowired
     public SettingsController(SettingsService settingsService) {
         this.settingsService = settingsService;
+    }
+
+    @GetMapping(value = "/getUser")
+    public ResponseEntity<ResponseWrapper> getUser(){
+        LOG.info("Get user request");
+        Response response;
+        UpdateUserDto userDto;
+        try {
+            userDto = settingsService.getUser();
+            response = SettingsResponse.GET_SUCCESS;
+            LOG.info("Get user request: " + userDto);
+        } catch (Exception e) {
+            userDto = null;
+            response = SettingsResponse.GET_CONFLICT;
+            LOG.error("Get user request conflict: " + e.getMessage());
+        }
+        return render(userDto, response, HttpStatus.OK);
     }
 
     @PutMapping(value = "/putInterest")

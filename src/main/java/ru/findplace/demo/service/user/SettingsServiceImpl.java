@@ -63,4 +63,12 @@ public class SettingsServiceImpl implements SettingsService {
         userRepository.save(user);
         return user;
     }
+
+    @Override
+    public UpdateUserDto getUser() {
+        User user = userRepository.findByEmail(CurrentUser.getEmail());
+        return new UpdateUserDto(
+                user.getName(), user.getPhone(), user.getEmail()
+        );
+    }
 }
