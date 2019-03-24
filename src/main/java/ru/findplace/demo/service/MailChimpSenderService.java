@@ -41,4 +41,18 @@ public class MailChimpSenderService implements MailSender {
         HttpEntity<T> entity = new HttpEntity<>(responseBody, headers);
         return restTemplate.postForEntity(headerUtils.getBaseUrl()+url ,entity, responseType).getBody();
     }
+
+    @Override
+    public <T> T doPut(String url, T responseBody, Class<T> responseType) {
+        HttpHeaders headers = headerUtils.getHttpHeader();
+        HttpEntity<T> entity = new HttpEntity<>(responseBody, headers);
+        return restTemplate.exchange(headerUtils.getBaseUrl()+url, HttpMethod.PUT, entity, responseType).getBody();
+    }
+
+    @Override
+    public <T> T doDelete(String url, T responseBody, Class<T> responseType) {
+        HttpHeaders headers = headerUtils.getHttpHeader();
+        HttpEntity<T> entity = new HttpEntity<>(responseBody, headers);
+        return restTemplate.exchange(headerUtils.getBaseUrl()+url, HttpMethod.DELETE, entity, responseType).getBody();
+    }
 }

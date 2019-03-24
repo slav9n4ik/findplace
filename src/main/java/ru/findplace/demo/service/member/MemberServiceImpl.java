@@ -11,6 +11,7 @@ import ru.findplace.demo.exception.AddListException;
 import ru.findplace.demo.service.MailSender;
 import ru.findplace.demo.service.list.ListService;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -48,6 +49,29 @@ public class MemberServiceImpl implements MemberService {
             resultMember = mailSender.doPost("/lists/" + id + "/members",member, Member.class);
         }
         return resultMember;
+    }
+
+    @Override
+    public Member deleteMemberByListName(String listName, Member member) {
+        String listId = getCampaignsBookItemIdByName(listName);
+        Member memb = null;
+        if (listId != null) {
+            String memberId = getMemberIdInListByMemberName(listId, member);
+            memb = mailSender.doDelete("/lists/" + listId + "/members/" +memberId,member, Member.class);
+        }
+        return memb;
+    }
+
+    private String getMemberIdInListByMemberName(String listId, Member member) {
+        MembersList membersInList = mailSender.doGet("/lists/" + listId + "/members",MembersList.class, true);
+        String id = membersInList
+                .getMembers()
+                .stream()
+                .filter(m -> m.getEmailAddress().equals(member.getEmailAddress()))
+                .findFirst()
+                .get()
+                .getId();
+        return id;
     }
 
     private String getCampaignsBookItemIdByName(String name) {

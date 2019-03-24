@@ -17,7 +17,7 @@ import ru.findplace.demo.Dtos.mailchimp.campaignbooklist.MergeFields;
 import ru.findplace.demo.entity.Interest;
 import ru.findplace.demo.entity.Role;
 import ru.findplace.demo.entity.User;
-import ru.findplace.demo.repository.InterestRrepository;
+import ru.findplace.demo.repository.InterestRepository;
 import ru.findplace.demo.repository.UserRepository;
 import ru.findplace.demo.service.member.MemberService;
 
@@ -29,14 +29,14 @@ public class UserServiceImpl implements UserService {
     Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
-    private final InterestRrepository interestRrepository;
+    private final InterestRepository interestRepository;
     private final MemberService memberService;
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, InterestRrepository interestRrepository, MemberService memberService) {
+    public UserServiceImpl(UserRepository userRepository, InterestRepository interestRepository, MemberService memberService) {
         this.userRepository = userRepository;
-        this.interestRrepository = interestRrepository;
+        this.interestRepository = interestRepository;
         this.memberService = memberService;
     }
 
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     private void setInterests(User user, List<String> interestValues) {
         Set<Interest> interests = new HashSet<>();
         for (String name: interestValues) {
-            Interest i = interestRrepository.findFirstByName(name);
+            Interest i = interestRepository.findFirstByName(name);
             interests.add(i);
         }
         user.setInterests(interests);
@@ -95,14 +95,15 @@ public class UserServiceImpl implements UserService {
 
     private void setInterestsInMemberGroups(User user) {
         for (Interest i : user.getInterests()) {
-            Interest responseInterest = interestRrepository.findFirstByName(i.getName());
+            Interest responseInterest = interestRepository.findFirstByName(i.getName());
             if (responseInterest != null) {
                 subscribeUser(responseInterest, user);
             }
         }
     }
 
-    private void subscribeUser(Interest i, User user) {
+    @Override
+    public void subscribeUser(Interest i, User user) {
         MergeFields mergeFields = new MergeFields();
         mergeFields.setFNAME(user.getName());
         mergeFields.setPHONE(user.getPhone());
@@ -113,5 +114,12 @@ public class UserServiceImpl implements UserService {
         member.setStatus("subscribed");
 
         memberService.addMemberByListName(i.getName(),member);
+    }
+
+    @Override
+    public void deleteUserInterest(Interest interest, User user) {
+        Member member = new Member();
+        member.setEmailAddress(user.getEmail());
+        memberService.deleteMemberByListName(interest.getName(), member);
     }
 }

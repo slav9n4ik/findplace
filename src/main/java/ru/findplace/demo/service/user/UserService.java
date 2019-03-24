@@ -14,4 +14,7 @@ public interface UserService extends UserDetailsService {
     User save(UserRegistrationDto registration, List<String> interestValues);
 
     Set<Interest> getUserInterests();
+
+    void deleteUserInterest(Interest interest, User user);
+    void subscribeUser(Interest i, User user);
 }

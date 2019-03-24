@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.findplace.demo.Dtos.UserRegistrationDto;
 import ru.findplace.demo.entity.Interest;
 import ru.findplace.demo.entity.User;
-import ru.findplace.demo.repository.InterestRrepository;
+import ru.findplace.demo.repository.InterestRepository;
 import ru.findplace.demo.service.user.UserService;
 
 import javax.validation.Valid;
@@ -25,12 +25,12 @@ public class UserController {
     Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
-    private final InterestRrepository interestRrepository;
+    private final InterestRepository interestRepository;
 
     @Autowired
-    public UserController(UserService userService, InterestRrepository interestRrepository) {
+    public UserController(UserService userService, InterestRepository interestRepository) {
         this.userService = userService;
-        this.interestRrepository = interestRrepository;
+        this.interestRepository = interestRepository;
     }
 
     @ModelAttribute("user")
@@ -41,7 +41,7 @@ public class UserController {
     @ModelAttribute
     public void initValues(Model model) {
         List<String> interestTypes = new ArrayList<>();
-        List<Interest> allInterests = interestRrepository.findAll();
+        List<Interest> allInterests = interestRepository.findAll();
         allInterests.forEach(interest -> interestTypes.add(interest.getName()));
         model.addAttribute("interest_types", interestTypes);
     }
